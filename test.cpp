@@ -1,62 +1,68 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int precidence(char c)
+int dfa(string s)
 {
-    if (c == '^')
-        return 3;
-    else if (c == '*' || c == '/')
-        return 2;
-    else if (c == '+' || c == '-')
-        return 1;
-    else
-        return -1;
-}
-
-void toPostfix(string input)
-{
-    stack<char> stack;
-    string output;
-    for (int i = 0; i < input.length(); i++)
+    if (s.length() == 1)
     {
-        if ((input[i] >= 'a' && input[i] <= 'z') || (input[i] >= 'A' && input[i] <= 'Z') || input[i] >= 0 && input[i] <= 9)
+        if (s[0] == 'a' || s[0] == 'b')
         {
-            output += input[i];
-        }
-        else if (input[i] == '(')
-        {
-            stack.push(input[i]);
-        }
-        else if (input[i] == ')')
-        {
-            while (stack.top() != '(')
-            {
-                output += stack.top();
-                stack.pop();
-            }
-            // if (!stack.empty())
-            stack.pop();
+            return 1;
         }
         else
         {
-            if (!stack.empty())
+            return 0;
+        }
+    }
+    else if (s.length() > 1)
+    {
+        if (s[0] == 'a')
+        {
+            int count_a = 0, count_b = 0;
+            int size = s.length();
+            for (int i = 0; i < size; i++)
             {
-                while (precidence(input[i]) <= precidence(stack.top()))
+                if (s[i] == 'a' || s[i] == 'b')
                 {
-                    output += stack.top();
-                    stack.pop();
+
+                    if (s[i] == 'a')
+                    {
+                        count_a++;
+                    }
+
+                    else if (s[i] == 'b')
+                    {
+                        count_b++;
+                        if (count_b > 1)
+                        {
+                            return 0;
+                        }
+                    }
                 }
-                stack.push(input[i]);
+                else
+                {
+                    return 0;
+                }
+            }
+            if (count_a % 2 == 0)
+            {
+                return 1;
             }
         }
     }
-    cout << output;
+    return 0;
 }
 
 int main()
 {
-    string input = "((a+b)*(c/d)^e)+f";
-    toPostfix(input);
-
+    string s = "ab";
+    if (dfa(s))
+    {
+        cout << "Accepted"
+             << "\n";
+    }
+    else
+        cout << "Rejected"
+             << "\n";
     return 0;
 }
