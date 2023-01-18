@@ -1,80 +1,62 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-void print(string res)
+int precidence(char c)
 {
-    for (int i = 0; i < res.size(); i++)
+    if (c == '^')
+        return 3;
+    else if (c == '*' || c == '/')
+        return 2;
+    else if (c == '+' || c == '-')
+        return 1;
+    else
+        return -1;
+}
+
+void toPostfix(string input)
+{
+    stack<char> stack;
+    string output;
+    for (int i = 0; i < input.length(); i++)
     {
-        switch (res[i])
+        if ((input[i] >= 'a' && input[i] <= 'z') || (input[i] >= 'A' && input[i] <= 'Z') || input[i] >= 0 && input[i] <= 9)
         {
+            output += input[i];
+        }
+        else if (input[i] == '(')
+        {
+            stack.push(input[i]);
+        }
+        else if (input[i] == ')')
+        {
+            while (stack.top() != '(')
             {
-            case '-':
-                cout << "Minus "
-                     << "\n";
-                break;
-
-            case '0':
-                cout << "Zer0 "
-                     << "\n";
-                break;
-            case '1':
-                cout << "One "
-                     << "\n";
-                break;
-            case '2':
-                cout << "Two "
-                     << "\n";
-                break;
-            case '3':
-                cout << "Three "
-                     << "\n";
-                break;
-
-            case '4':
-                cout << "Four "
-                     << "\n";
-                break;
-            case '5':
-                cout << "Five "
-                     << "\n";
-                break;
-            case '6':
-                cout << "Six "
-                     << "\n";
-                break;
-            case '7':
-                cout << "Seven "
-                     << "\n";
-                break;
-            case '8':
-                cout << "Eight "
-                     << "\n";
-                break;
-            case '9':
-                cout << "Nine "
-                     << "\n";
-            default:
-                break;
+                output += stack.top();
+                stack.pop();
+            }
+            // if (!stack.empty())
+            stack.pop();
+        }
+        else
+        {
+            if (!stack.empty())
+            {
+                while (precidence(input[i]) <= precidence(stack.top()))
+                {
+                    output += stack.top();
+                    stack.pop();
+                }
+                stack.push(input[i]);
             }
         }
     }
+    cout << output;
 }
 
 int main()
 {
-    string num;
-    cout << "Enter any less than or equal to three digit number : "
-         << "\n";
-    cin >> num;
-    int res = stoi(num);
-    if (res > -1000 && res < 1000)
-    {
-        print(num);
-    }
-    else
-    {
-        cout << "Invalid input"
-             << "\n";
-    }
+    string input = "((a+b)*(c/d)^e)+f";
+    toPostfix(input);
+
     return 0;
 }
