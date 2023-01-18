@@ -1,59 +1,68 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+int dfa(string s)
+{
+    if (s.length() == 1)
+    {
+        if (s[0] == 'a' || s[0] == 'b')
+        {
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    else if (s.length() > 1)
+    {
+        if (s[0] == 'a')
+        {
+            int count_a = 0, count_b = 0;
+            int size = s.length();
+            for (int i = 0; i < size; i++)
+            {
+                if (s[i] == 'a' || s[i] == 'b')
+                {
+
+                    if (s[i] == 'a')
+                    {
+                        count_a++;
+                    }
+
+                    else if (s[i] == 'b')
+                    {
+                        count_b++;
+                        if (count_b > 1)
+                        {
+                            return 0;
+                        }
+                    }
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            if (count_a % 2 == 0 && count_b == 1 && s[size - 1] == 'b')
+            {
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+
 int main()
 {
-    string input = "aa";
-    if (input.length() == 1)
+    string s = "aaaab";
+    if (dfa(s))
     {
-        if (input[0] == 'a' || input[0] == 'b')
-        {
-            cout << "Accepted"
-                 << "\n";
-        }
-        else
-        {
-            cout << "Rejected"
-                 << "\n";
-        }
+        cout << "Accepted"
+             << "\n";
     }
-
     else
-    {
-        if (input[0] != 'a')
-        {
-            cout << "Rejected"
-                 << "\n";
-        }
-        else
-        {
-            int i = 0;
-            while (input[i] = 'a')
-            {
-                i++;
-            }
-            cout << i << "\n";
-            // if (i % 2 == 0)
-            // {
-            //     int temp = input.length() - 1;
-            //     cout << temp << "\n";
-            //     if (input[temp] = 'b')
-            //     {
-            //         return 1;
-            //     }
-            //     else
-            //     {
-            //         cout << "Rejected"
-            //              << "\n";
-            //     }
-            // }
-            // else
-            // {
-            //     cout << "Rejected"
-            //          << "\n";
-            // }
-        }
-    }
-
+        cout << "Rejected"
+             << "\n";
     return 0;
 }
