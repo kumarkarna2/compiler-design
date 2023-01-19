@@ -57,25 +57,23 @@ int main()
         // for operators
         else
         {
-            if (!stack.empty())
+            while (!stack.empty() && (precidence(stack.top()) >= precidence(input[i])))
             {
-                while ((precidence(stack.top()) >= precidence(input[i])) && !stack.empty())
-                {
-                    res.push_back(stack.top());
-                    stack.pop();
-                }
+                res.push_back(stack.top());
+                stack.pop();
             }
+
             stack.push(input[i]);
         }
 
         // cout << res[i];
     }
-
-    // while (!stack.empty())
-    // {
-    //     res.push_back(stack.top());
-    //     stack.pop();
-    // }
+    // remaining operators in stack
+    while (!stack.empty())
+    {
+        res.push_back(stack.top());
+        stack.pop();
+    }
 
     // result printing
     for (auto i : res)
