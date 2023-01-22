@@ -12,41 +12,74 @@ int chkVowel(char s)
 
 void moveCons(string s)
 {
-    string tempStr;
-    char temp = s[0];
-    for (int i = 1; i < s.length(); i++)
+    string res;
+    string tempCon;
+    // int count = 0;
+    string subStr;
+    for (int i = 0; i < s.length(); i++)
     {
-        tempStr += s[i];
-    }
-    tempStr += temp;
-    tempStr += "ay";
 
-    print(tempStr);
+        // treat u as a consonant
+        if ((s[i] == 'u' || s[i] == 'U') && (s[i - 1] == 'Q' || s[i - 1] == 'q'))
+        {
+            tempCon += s[i];
+        }
+        // after encounterring a vowel copy the left string to a new string and stop traversing
+        else if (chkVowel(s[i]))
+        {
+            subStr = s.substr(i);
+            break;
+        }
+
+        // copy consonant untill vowel is encountered
+        else
+        {
+            tempCon += s[i];
+        }
+    }
+    subStr += tempCon;
+    subStr += "ay";
+
+    print(subStr);
 }
 
 void translate(string s)
 {
+    // single length string
     if (s.length() == 1)
     {
         print(s);
     }
+
+    // string started with vowel
     else if (chkVowel(s[0]))
     {
-        if ((s[0] == 'u' || s[0] == 'U') && s[1] == 'Q' || s[1] == 'q')
+        for (int i = 0; i < s.length(); i++)
         {
-            moveCons(s);
-        }
-        else
-        {
-            s += "yay";
-            print(s);
+            // U following a Q is treated as consonant e.g. Queue
+            if ((s[i] == 'u' || s[i] == 'U') && (s[i - 1] == 'Q' || s[i - 1] == 'q'))
+            {
+                moveCons(s);
+            }
+
+            // string started with vowel and without U following Q combination
+            else
+            {
+                s += "yay";
+                print(s);
+                break;
+            }
         }
     }
+
+    // begining Y treated as vowel if not followed by a vowel
     else if ((s[0] == 'y' || s[0] == 'Y') && chkVowel(s[1]))
     {
         s += "yay";
         print(s);
     }
+
+    // for consonant
     else
     {
         moveCons(s);
@@ -61,7 +94,7 @@ void print(string s)
 
 int main()
 {
-    string input = "owl";
+    string input = "amazon";
     translate(input);
 
     return 0;

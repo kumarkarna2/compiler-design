@@ -7,55 +7,42 @@ void print(string res)
     {
         switch (res[i])
         {
-            {
-            case '-':
-                cout << "Minus "
-                     << "\n";
-                break;
+        case '-':
+            cout << "Minus ";
+            break;
 
-            case '0':
-                cout << "Zer0 "
-                     << "\n";
-                break;
-            case '1':
-                cout << "One "
-                     << "\n";
-                break;
-            case '2':
-                cout << "Two "
-                     << "\n";
-                break;
-            case '3':
-                cout << "Three "
-                     << "\n";
-                break;
+        case '0':
+            cout << "Zer0 ";
+            break;
+        case '1':
+            cout << "One ";
+            break;
+        case '2':
+            cout << "Two ";
+            break;
+        case '3':
+            cout << "Three ";
+            break;
 
-            case '4':
-                cout << "Four "
-                     << "\n";
-                break;
-            case '5':
-                cout << "Five "
-                     << "\n";
-                break;
-            case '6':
-                cout << "Six "
-                     << "\n";
-                break;
-            case '7':
-                cout << "Seven "
-                     << "\n";
-                break;
-            case '8':
-                cout << "Eight "
-                     << "\n";
-                break;
-            case '9':
-                cout << "Nine "
-                     << "\n";
-            default:
-                break;
-            }
+        case '4':
+            cout << "Four ";
+            break;
+        case '5':
+            cout << "Five ";
+            break;
+        case '6':
+            cout << "Six ";
+            break;
+        case '7':
+            cout << "Seven ";
+            break;
+        case '8':
+            cout << "Eight ";
+            break;
+        case '9':
+            cout << "Nine ";
+        default:
+            break;
         }
     }
 }
