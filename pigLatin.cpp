@@ -24,6 +24,18 @@ void moveCons(string s)
         {
             tempCon += s[i];
         }
+        else if (s[i] == 'y' || s[i] == 'Y')
+        {
+            if (chkVowel(s[i + 1]))
+            {
+                tempCon += s[i];
+            }
+            else if (!chkVowel(s[i - 1]))
+            {
+                subStr = s.substr(i);
+                break;
+            }
+        }
         // after encounterring a vowel copy the left string to a new string and stop traversing
         else if (chkVowel(s[i]))
         {
@@ -58,13 +70,6 @@ void translate(string s)
         print(s);
     }
 
-    // begining Y treated as vowel if not followed by a vowel
-    else if ((s[0] == 'y' || s[0] == 'Y') && chkVowel(s[1]))
-    {
-        s += "yay";
-        print(s);
-    }
-
     // for consonant
     else
     {
@@ -80,7 +85,7 @@ void print(string s)
 
 int main()
 {
-    string input = "amazon";
+    string input = "bour";
     translate(input);
 
     return 0;
