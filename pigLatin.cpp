@@ -54,22 +54,8 @@ void translate(string s)
     // string started with vowel
     else if (chkVowel(s[0]))
     {
-        for (int i = 0; i < s.length(); i++)
-        {
-            // U following a Q is treated as consonant e.g. Queue
-            if ((s[i] == 'u' || s[i] == 'U') && (s[i - 1] == 'Q' || s[i - 1] == 'q'))
-            {
-                moveCons(s);
-            }
-
-            // string started with vowel and without U following Q combination
-            else
-            {
-                s += "yay";
-                print(s);
-                break;
-            }
-        }
+        s += "yay";
+        print(s);
     }
 
     // begining Y treated as vowel if not followed by a vowel
