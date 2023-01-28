@@ -12,7 +12,7 @@ int chkVowel(char s)
 
 void moveCons(string s)
 {
-    string res;
+    // string res;
     string tempCon;
     // int count = 0;
     string subStr;
@@ -30,7 +30,7 @@ void moveCons(string s)
             {
                 tempCon += s[i];
             }
-            else if (!chkVowel(s[i - 1]))
+            else // if (!chkVowel(s[i - 1]))
             {
                 subStr = s.substr(i);
                 break;
@@ -80,12 +80,12 @@ void translate(string s)
 void print(string s)
 {
     cout << s;
-    exit;
+    // exit;
 }
 
 int main()
 {
-    string input = "bour";
+    string input = "hjfjnkwn;fgkujbqif";
     translate(input);
 
     return 0;

@@ -22,22 +22,17 @@ int dfa(string s)
             int size = s.length();
             for (int i = 0; i < size; i++)
             {
-                if (s[i] == 'a' || s[i] == 'b')
+                if (s[i] == 'a')
                 {
-
-                    if (s[i] == 'a')
+                    count_a++;
+                }
+                else if (s[i] == 'b')
+                {
+                    if (count_b > 1)
                     {
-                        count_a++;
+                        return 0;
                     }
-
-                    else if (s[i] == 'b')
-                    {
-                        count_b++;
-                        if (count_b > 1)
-                        {
-                            return 0;
-                        }
-                    }
+                    count_b++;
                 }
                 else
                 {
