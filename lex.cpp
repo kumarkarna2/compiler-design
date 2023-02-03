@@ -86,16 +86,18 @@ void resKeyword(string s)
             return;
         }
     }
-
-    resId.push_back(s);
+    if (s != "")
+    {
+        resId.push_back(s);
+    }
 }
 
 void operators(string s)
 {
     vector<string> operators = {"+", "-", "*", "/", "%", "++", "--", "=", "+=", "-=", "*=", "/=", "%=", "==", "!=", ">", "<", ">=", "<=", "&&", "||", "!", "&", "|", "^", "~", "<<", ">>", ">>=", "<<=", "&=", "|=", "^=", "?:", ",", ".", "->", ".*", "->*", "()", "[]", "new", "delete", "new[]", "delete[]"};
-    for (int i = 0; i < operators.size(); i++)
+    for (auto it = operators.begin(); it != operators.end(); it++)
     {
-        if (s == operators[i])
+        if (s == *it)
         {
             resOp.push_back(s);
         }
@@ -104,7 +106,7 @@ void operators(string s)
 
 void delimiters(string s)
 {
-    vector<string> delimtr = {",", ";"};
+    vector<string> delimtr = {",", ";", "(", ")", "{", "}", "[", "]", "#", "\\", "<", ">", "~", "`", "'", "\""};
     for (int i = 0; i < delimtr.size(); i++)
     {
         if (s == delimtr[i])
@@ -116,31 +118,38 @@ void delimiters(string s)
 
 int main()
 {
-    string s = "int, + xgffy b /= float == -= a = 10;";
+    string s = "int a = 10; hghh hh989h ,h intn;";
 
-    cout << s[10];
-    string tempstr, tempint, tempop, tempdel;
+    string tempstr = "", tempint, tempop, tempdel;
     for (int i = 0; i < s.length(); i++)
     {
         if (!chkDelimiter(s[i]))
         {
-            if (chkInt(s[i]))
+
+            if (chkAlphabet(s[i]) || ((chkInt(s[i])) && (chkAlphabet(s[i - 1]))))
             {
-                cout << "inside constant"
-                     << "\n";
-                tempint += s[i];
-            }
-            else if (chkAlphabet(s[i]) || chkInt(s[i]))
-            {
-                cout << "inside alphabet"
-                     << "\n";
+                // if integer is after alphabet
+                if (chkInt(s[i]) && chkAlphabet(s[i - 1]))
+                {
+                    int j = i;
+                    // put all interger in tempstr until delimiter
+                    while (!chkDelimiter(s[j]))
+                    {
+                        tempstr += s[j];
+                        j++;
+                    }
+                    i = j;
+                    continue;
+                }
 
                 tempstr += s[i];
             }
+            else if (chkInt(s[i]) || (s[i] == '.' && (chkInt(s[i - 1]) || chkInt(s[i + 1]))))
+            {
+                tempint += s[i];
+            }
             else if (chkOperator(s[i]))
             {
-                cout << "inside operator"
-                     << "\n";
                 tempop += s[i];
             }
         }
@@ -148,14 +157,17 @@ int main()
         {
             if (chkDelimiter(s[i]))
             {
-                cout << "inside delimiter"
-                     << "\n";
                 tempdel += s[i];
             }
-            resKeyword(tempstr);
-            operators(tempop);
+            if (tempint != "")
+            {
+                resInt.push_back(tempint);
+            }
+
             delimiters(tempdel);
-            resInt.push_back(tempint);
+            operators(tempop);
+            resKeyword(tempstr);
+
             tempstr = "";
             tempop = "";
             tempdel = "";
