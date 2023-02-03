@@ -3,9 +3,8 @@ using namespace std;
 
 int main()
 {
-    string s = "your";
 
-    cout << s[-1] << "\n";
+    cout << s;
 
     return 0;
 }

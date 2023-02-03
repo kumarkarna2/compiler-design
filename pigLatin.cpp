@@ -85,7 +85,7 @@ void print(string s)
 
 int main()
 {
-    string input = "hjfjnkwn;fgkujbqif";
+    string input = "ahello";
     translate(input);
 
     return 0;
