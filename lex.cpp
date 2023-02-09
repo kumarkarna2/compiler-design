@@ -8,6 +8,7 @@ vector<string> resId;
 
 void print()
 {
+
     cout << "Keywords: ";
     for (auto i : resKey)
     {
@@ -118,7 +119,7 @@ void delimiters(string s)
 
 int main()
 {
-    string s = "int a = 10; hghh hh989h ,h intn;";
+    string s = "int a+= 10; x+++y hghh hh989h ,h intn;";
 
     string tempstr = "", tempint, tempop, tempdel;
     for (int i = 0; i < s.length(); i++)
