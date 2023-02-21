@@ -1,181 +1,195 @@
 #include <bits/stdc++.h>
 using namespace std;
-vector<string> resKey;
-vector<string> resOp;
-vector<string> resDel;
-vector<string> resInt;
-vector<string> resId;
+vector<string> keywords;
+vector<string> operators;
+vector<string> delimiters;
+vector<string> identifiers;
+vector<string> integers;
+vector<string> tokens;
 
 void print()
 {
+    cout << "Tokens: ";
+    for (int i = 0; i < tokens.size(); i++)
+    {
+        cout << tokens[i] << " ";
+    }
+    cout << endl;
 
     cout << "Keywords: ";
-    for (auto i : resKey)
+    for (int i = 0; i < keywords.size(); i++)
     {
-        cout << i << " ";
-    }
-    cout << endl;
-    cout << "Operators: ";
-    for (auto i : resOp)
-    {
-        cout << i << " ";
-    }
-    cout << endl;
-    cout << "Delimiters: ";
-    for (auto i : resDel)
-    {
-        cout << i << " ";
+        cout << keywords[i] << " ";
     }
     cout << endl;
     cout << "Identifiers: ";
-    for (auto i : resId)
+    for (int i = 0; i < identifiers.size(); i++)
     {
-        cout << i << " ";
+        cout << identifiers[i] << " ";
     }
     cout << endl;
     cout << "Constants: ";
-    for (auto i : resInt)
+    for (int i = 0; i < integers.size(); i++)
     {
-        cout << i << " ";
+        cout << integers[i] << " ";
     }
+    cout << endl;
+    cout << "Operators: ";
+    for (int i = 0; i < operators.size(); i++)
+    {
+        cout << operators[i] << " ";
+    }
+    cout << endl;
+    cout << "Delimiters: ";
+    for (int i = 0; i < delimiters.size(); i++)
+    {
+        cout << delimiters[i] << " ";
+    }
+    cout << endl;
 }
 
-int chkInt(char c)
+bool chkDelimiter(char c)
 {
-    if (c == '0' || c == '1' || c == '2' || c == '3' || c == '4' || c == '5' || c == '6' || c == '7' || c == '8' || c == '9')
-    {
-        return 1;
-    }
-    return 0;
-}
-
-int chkAlphabet(char c)
-{
-    if (c == 'a' || c == 'b' || c == 'c' || c == 'd' || c == 'e' || c == 'f' || c == 'g' || c == 'h' || c == 'i' || c == 'j' || c == 'k' || c == 'l' || c == 'm' || c == 'n' || c == 'o' || c == 'p' || c == 'q' || c == 'r' || c == 's' || c == 't' || c == 'u' || c == 'v' || c == 'w' || c == 'x' || c == 'y' || c == 'z' || c == 'A' || c == 'B' || c == 'C' || c == 'D' || c == 'E' || c == 'F' || c == 'G' || c == 'H' || c == 'I' || c == 'J' || c == 'K' || c == 'L' || c == 'M' || c == 'N' || c == 'O' || c == 'P' || c == 'Q' || c == 'R' || c == 'S' || c == 'T' || c == 'U' || c == 'V' || c == 'W' || c == 'X' || c == 'Y' || c == 'Z')
-    {
-        return 1;
-    }
-    return 0;
-}
-
-int chkOperator(char c)
-{
-    if (c == '+' || c == '-' || c == '*' || c == '/' || c == '%' || c == '=' || c == '!' || c == '>' || c == '<' || c == '&' || c == '|' || c == '^' || c == '~' || c == '?' || c == ':')
-    {
-        return 1;
-    }
-    return 0;
-}
-
-int chkDelimiter(char c)
-{
-    if (c == ' ' || c == ',' || c == ';')
-    {
-        return 1;
-    }
-    return 0;
-}
-
-void resKeyword(string s)
-{
-    vector<string> keyword = {"alignas", "alignof", "and", "and_eq", "asm", "atomic_cancel", "atomic_commit", "atomic_noexcept", "auto", "bitand", "bitor", "bool", "break", "case", "catch", "char", "char8_t", "char16_t", "char32_t", "class", "compl", "concept", "const", "consteval", "constexpr", "constinit", "const_cast", "continue", "co_await", "co_return", "co_yield", "decltype", "default", "delete", "do", "double", "dynamic_cast", "else", "enum", "explicit", "export", "extern", "false", "float", "for", "friend", "goto", "if", "inline", "int", "long", "mutable", "namespace", "new", "noexcept", "not", "not_eq", "nullptr", "operator", "or", "or_eq", "private", "protected", "public", "reflexpr", "register", "reinterpret_cast", "requires", "return", "short", "signed", "sizeof", "static", "static_assert", "static_cast", "struct", "switch", "synchronized", "template", "this", "thread_local", "throw", "true", "try", "typedef", "typeid", "typename", "union", "unsigned", "using", "virtual", "void", "volatile", "wchar_t", "while", "xor", "xor_eq"};
-    for (int i = 0; i < keyword.size(); i++)
-    {
-        if (s == keyword[i])
-        {
-            resKey.push_back(s);
-            return;
-        }
-    }
-    if (s != "")
-    {
-        resId.push_back(s);
-    }
-}
-
-void operators(string s)
-{
-    vector<string> operators = {"+", "-", "*", "/", "%", "++", "--", "=", "+=", "-=", "*=", "/=", "%=", "==", "!=", ">", "<", ">=", "<=", "&&", "||", "!", "&", "|", "^", "~", "<<", ">>", ">>=", "<<=", "&=", "|=", "^=", "?:", ",", ".", "->", ".*", "->*", "()", "[]", "new", "delete", "new[]", "delete[]"};
-    for (auto it = operators.begin(); it != operators.end(); it++)
-    {
-        if (s == *it)
-        {
-            resOp.push_back(s);
-        }
-    }
-}
-
-void delimiters(string s)
-{
-    vector<string> delimtr = {",", ";", "(", ")", "{", "}", "[", "]", "#", "\\", "<", ">", "~", "`", "'", "\""};
+    vector<char> delimtr = {',', ';', '(', ')', '{', '}', '[', ']', '#', '\\', '<', '>', '~', '`', '\'', '\"'};
     for (int i = 0; i < delimtr.size(); i++)
     {
-        if (s == delimtr[i])
+        if (c == delimtr[i])
         {
-            resDel.push_back(s);
+            return true;
         }
     }
+    return false;
+}
+
+bool chkOperator(char c)
+{
+    vector<char> op = {'+', '-', '*', '/', '%', '=', '!', '<', '>', '&', '|', '^', '~'};
+    for (int i = 0; i < op.size(); i++)
+    {
+        if (c == op[i])
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool chkAlphabet(char c)
+{
+    if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
+    {
+        return true;
+    }
+    return false;
+}
+
+bool chkInt(char c)
+{
+    if (c >= '0' && c <= '9')
+    {
+        return true;
+    }
+    return false;
+}
+
+bool chkKeyword(string s)
+{
+    vector<string> key = {"auto", "break", "case", "char", "const", "continue", "default", "do", "double", "else", "enum", "extern", "float", "for", "goto", "if", "int", "long", "register", "return", "short", "signed", "sizeof", "static", "struct", "switch", "typedef", "union", "unsigned", "void", "volatile", "while"};
+    for (int i = 0; i < key.size(); i++)
+    {
+        if (s == key[i])
+        {
+            return true;
+        }
+    }
+    return false;
 }
 
 int main()
 {
-    string s = "int a+= 10; x+++y hghh hh989h ,h intn;";
+    string s = "int a == 5; int b = 6; int c = a + b;     x++ y; ";
 
-    string tempstr = "", tempint, tempop, tempdel;
-    for (int i = 0; i < s.length(); i++)
+    string tempStr, tempInt, tempDel, tempOp;
+    for (int i = 0; i < s.size(); i++)
     {
-        if (!chkDelimiter(s[i]))
+        if (chkInt(s[i]) && !(s[i - 1] == '_' || s[i + 1] == '_' || chkAlphabet(s[i - 1]) || chkAlphabet(s[i + 1])))
         {
-
-            if (chkAlphabet(s[i]) || ((chkInt(s[i])) && (chkAlphabet(s[i - 1]))))
+            tempInt += s[i];
+        }
+        else if (chkAlphabet(s[i]) || s[i] == '_' || chkInt(s[i]))
+        {
+            if (chkInt(s[i]) && (chkAlphabet(s[i - 1]) || chkAlphabet(s[i + 1])))
             {
-                // if integer is after alphabet
-                if (chkInt(s[i]) && chkAlphabet(s[i - 1]))
+
+                int j = i;
+                while (chkInt(s[j]))
                 {
-                    int j = i;
-                    // put all interger in tempstr until delimiter
-                    while (!chkDelimiter(s[j]))
-                    {
-                        tempstr += s[j];
-                        j++;
-                    }
-                    i = j;
-                    continue;
+                    tempStr += s[j];
+                    j++;
                 }
+                i = j - 1;
+                continue;
+            }
+            tempStr += s[i];
+            continue;
+        }
 
-                tempstr += s[i];
-            }
-            else if (chkInt(s[i]) || (s[i] == '.' && (chkInt(s[i - 1]) || chkInt(s[i + 1]))))
+        else if (chkDelimiter(s[i]))
+        {
+            tempDel += s[i];
+        }
+        else if (chkOperator(s[i]))
+        {
+            if (tempOp.size() < 2)
             {
-                tempint += s[i];
+                tempOp += s[i];
             }
-            else if (chkOperator(s[i]))
-            {
-                tempop += s[i];
-            }
+
+            // else
+            // {
+            // tokens.push_back(tempOp);
+            //     operators.push_back(tempOp);
+            //     tempOp = "";
+            //     tempOp += s[i];
+            // }
         }
         else
         {
-            if (chkDelimiter(s[i]))
+            if (tempStr != "")
             {
-                tempdel += s[i];
+                if (chkKeyword(tempStr))
+                {
+                    keywords.push_back(tempStr);
+                    tokens.push_back(tempStr);
+                }
+                else
+                {
+                    identifiers.push_back(tempStr);
+                    tokens.push_back(tempStr);
+                }
+                tempStr = "";
             }
-            if (tempint != "")
+            if (tempInt != "")
             {
-                resInt.push_back(tempint);
+                integers.push_back(tempInt);
+                tokens.push_back(tempInt);
+                tempInt = "";
             }
-
-            delimiters(tempdel);
-            operators(tempop);
-            resKeyword(tempstr);
-
-            tempstr = "";
-            tempop = "";
-            tempdel = "";
-            tempint = "";
+            if (tempDel != "")
+            {
+                delimiters.push_back(tempDel);
+                tokens.push_back(tempDel);
+                tempDel = "";
+            }
+            if (tempOp != "")
+            {
+                operators.push_back(tempOp);
+                tokens.push_back(tempOp);
+                tempOp = "";
+            }
         }
     }
-
     print();
+
     return 0;
 }
