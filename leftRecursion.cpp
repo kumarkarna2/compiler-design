@@ -20,13 +20,13 @@ public:
         }
     }
 };
-set<production> newProductions;
-set<production> productions;
-// vector<production> newProductions;
 
 class Grammer
 {
 public:
+    set<production> newProductions;
+    set<production> productions;
+
     void split_string(string input)
     {
         string str = "";
@@ -125,21 +125,23 @@ public:
 int main()
 {
     Grammer grammer;
+
     grammer.productionRules();
     cout << "Original Productions: \n";
-    grammer.display(productions);
+    grammer.display(grammer.productions);
 
     bool isLeftRecursive = grammer.isLeftRecursive();
+
     if (isLeftRecursive)
     {
         grammer.removeLeftRecursion();
         cout << "\nNew Productions: \n";
-        grammer.display(newProductions);
+        grammer.display(grammer.newProductions);
     }
     else
     {
         cout << "Grammer is not left recursive\n";
-        grammer.display(productions);
+        grammer.display(grammer.productions);
     }
 
     return 0;
