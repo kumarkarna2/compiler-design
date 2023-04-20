@@ -107,7 +107,7 @@ bool chkKeyword(string s)
 
 int main()
 {
-    string s = "int a = 5; int b = 6; int c = a + b;     x+ ++y; ";
+    string s = "int a = 5; int b = 6; int c = a + b;     x+++y; ";
 
     string tempStr, tempInt, tempDel, tempOp;
     for (int i = 0; i < s.size(); i++)
@@ -144,14 +144,15 @@ int main()
             {
                 tempOp += s[i];
             }
-            else
-            {
-                operators.push_back(tempOp);
-                tokens.push_back(tempOp);
-                tempOp = "";
-                tempOp += s[i];
-            }
-                }
+
+            // else
+            // {
+            // tokens.push_back(tempOp);
+            //     operators.push_back(tempOp);
+            //     tempOp = "";
+            //     tempOp += s[i];
+            // }
+        }
         else
         {
             if (tempStr != "")
