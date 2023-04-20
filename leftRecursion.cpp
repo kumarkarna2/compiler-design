@@ -2,8 +2,9 @@
 using std::cout, std::cin, std::endl;
 using std::string, std::vector, std::set;
 
-struct production
+class production
 {
+public:
     string lhs;
     string rhs;
 
@@ -20,7 +21,7 @@ struct production
     }
 };
 set<production> newProductions;
-vector<production> productions;
+set<production> productions;
 // vector<production> newProductions;
 
 class Grammer
@@ -31,13 +32,20 @@ public:
         string str = "";
         for (int i = 3; i <= input.size(); i++)
         {
-            if (input[i] == '|' || i == input.size())
+            if (input[i] == ' ')
+            {
+                continue;
+            }
+            else if (input[i] == '|' || i == input.size())
             {
                 production prod;
                 prod.lhs = input[0];
                 prod.rhs = str;
-                productions.push_back(prod);
-                str = "";
+                if (str != "")
+                {
+                    productions.insert(prod);
+                    str = "";
+                }
             }
             else
             {
@@ -48,7 +56,7 @@ public:
 
     void productionRules()
     {
-        string input = "E->E+T|T|E-T";
+        string input = "E->E + T|T|E-T|";
         split_string(input);
     }
 
@@ -87,6 +95,31 @@ public:
             temp = "";
         }
     }
+
+    void display(set<production> productions)
+    {
+        for (auto production : productions)
+        {
+            cout << production.lhs << " -> ";
+            for (auto symbol : production.rhs)
+            {
+                cout << symbol;
+            }
+            cout << endl;
+        }
+    }
+
+    bool isLeftRecursive()
+    {
+        for (auto production : productions)
+        {
+            if (production.lhs[0] == production.rhs[0])
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 };
 
 int main()
@@ -94,27 +127,20 @@ int main()
     Grammer grammer;
     grammer.productionRules();
     cout << "Original Productions: \n";
-    for (auto production : productions)
+    grammer.display(productions);
+
+    bool isLeftRecursive = grammer.isLeftRecursive();
+    if (isLeftRecursive)
     {
-        cout << production.lhs << " -> ";
-        for (auto symbol : production.rhs)
-        {
-            cout << symbol;
-        }
-        cout << endl;
+        grammer.removeLeftRecursion();
+        cout << "\nNew Productions: \n";
+        grammer.display(newProductions);
+    }
+    else
+    {
+        cout << "Grammer is not left recursive\n";
+        grammer.display(productions);
     }
 
-    // LeftRecursion lr;
-    grammer.removeLeftRecursion();
-    cout << "\n\nNew Productions: \n";
-    for (auto production : newProductions)
-    {
-        cout << production.lhs << " -> ";
-        for (auto symbol : production.rhs)
-        {
-            cout << symbol;
-        }
-        cout << endl;
-    }
     return 0;
 }
