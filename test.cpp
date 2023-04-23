@@ -1,195 +1,101 @@
 #include <bits/stdc++.h>
-using namespace std;
-vector<string> keywords;
-vector<string> operators;
-vector<string> delimiters;
-vector<string> identifiers;
-vector<string> integers;
-vector<string> tokens;
+using std::cout, std::cin, std::endl, std::pair;
+using std::vector, std::string, std::set, std::map;
 
-void print()
+class production
 {
-    cout << "Tokens: ";
-    for (int i = 0; i < tokens.size(); i++)
-    {
-        cout << tokens[i] << " ";
-    }
-    cout << endl;
 
-    cout << "Keywords: ";
-    for (int i = 0; i < keywords.size(); i++)
-    {
-        cout << keywords[i] << " ";
-    }
-    cout << endl;
-    cout << "Identifiers: ";
-    for (int i = 0; i < identifiers.size(); i++)
-    {
-        cout << identifiers[i] << " ";
-    }
-    cout << endl;
-    cout << "Constants: ";
-    for (int i = 0; i < integers.size(); i++)
-    {
-        cout << integers[i] << " ";
-    }
-    cout << endl;
-    cout << "Operators: ";
-    for (int i = 0; i < operators.size(); i++)
-    {
-        cout << operators[i] << " ";
-    }
-    cout << endl;
-    cout << "Delimiters: ";
-    for (int i = 0; i < delimiters.size(); i++)
-    {
-        cout << delimiters[i] << " ";
-    }
-    cout << endl;
-}
+public:
+    char lhs;
+    vector<string> rhs;
 
-bool chkDelimiter(char c)
-{
-    vector<char> delimtr = {',', ';', '(', ')', '{', '}', '[', ']', '#', '\\', '<', '>', '~', '`', '\'', '\"'};
-    for (int i = 0; i < delimtr.size(); i++)
+    vector<production> productions;
+    map<char, set<char>> firstSet;
+    map<char, set<char>> followSet;
+    vector<bool> visited = {false};
+
+    void productionRules()
     {
-        if (c == delimtr[i])
+        productions.push_back({'E', {"E+T", "T"}}); // E->+T|T
+        productions.push_back({'T', {"F*F", "F"}}); // T->*F|F
+        productions.push_back({'F', {"(E)", "i"}}); // F->(E)|i
+    }
+
+    void display()
+    {
+        for (auto production : productions)
         {
-            return true;
-        }
-    }
-    return false;
-}
-
-bool chkOperator(char c)
-{
-    vector<char> op = {'+', '-', '*', '/', '%', '=', '!', '<', '>', '&', '|', '^', '~'};
-    for (int i = 0; i < op.size(); i++)
-    {
-        if (c == op[i])
-        {
-            return true;
-        }
-    }
-    return false;
-}
-
-bool chkAlphabet(char c)
-{
-    if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
-    {
-        return true;
-    }
-    return false;
-}
-
-bool chkInt(char c)
-{
-    if (c >= '0' && c <= '9')
-    {
-        return true;
-    }
-    return false;
-}
-
-bool chkKeyword(string s)
-{
-    vector<string> key = {"auto", "break", "case", "char", "const", "continue", "default", "do", "double", "else", "enum", "extern", "float", "for", "goto", "if", "int", "long", "register", "return", "short", "signed", "sizeof", "static", "struct", "switch", "typedef", "union", "unsigned", "void", "volatile", "while"};
-    for (int i = 0; i < key.size(); i++)
-    {
-        if (s == key[i])
-        {
-            return true;
-        }
-    }
-    return false;
-}
-
-int main()
-{
-    string s = "int a = 5; int b = 6; int c = a + b;     x+++y; ";
-
-    string tempStr, tempInt, tempDel, tempOp;
-    for (int i = 0; i < s.size(); i++)
-    {
-        if (chkInt(s[i]) && !(s[i - 1] == '_' || s[i + 1] == '_' || chkAlphabet(s[i - 1]) || chkAlphabet(s[i + 1])))
-        {
-            tempInt += s[i];
-        }
-        else if (chkAlphabet(s[i]) || s[i] == '_' || chkInt(s[i]))
-        {
-            if (chkInt(s[i]) && (chkAlphabet(s[i - 1]) || chkAlphabet(s[i + 1])))
+            cout << production.lhs << "->";
+            for (auto rhs : production.rhs)
             {
-
-                int j = i;
-                while (chkInt(s[j]))
+                if (rhs != production.rhs.back())
                 {
-                    tempStr += s[j];
-                    j++;
-                }
-                i = j - 1;
-                continue;
-            }
-            tempStr += s[i];
-            continue;
-        }
-
-        else if (chkDelimiter(s[i]))
-        {
-            tempDel += s[i];
-        }
-        else if (chkOperator(s[i]))
-        {
-            if (tempOp.size() < 2)
-            {
-                tempOp += s[i];
-            }
-
-            // else
-            // {
-            // tokens.push_back(tempOp);
-            //     operators.push_back(tempOp);
-            //     tempOp = "";
-            //     tempOp += s[i];
-            // }
-        }
-        else
-        {
-            if (tempStr != "")
-            {
-                if (chkKeyword(tempStr))
-                {
-                    keywords.push_back(tempStr);
-                    tokens.push_back(tempStr);
+                    cout << rhs << "|";
                 }
                 else
                 {
-                    identifiers.push_back(tempStr);
-                    tokens.push_back(tempStr);
+                    cout << rhs;
                 }
-                tempStr = "";
             }
-            if (tempInt != "")
+            cout << endl;
+        }
+    }
+
+    bool isNonTerminal(char symbol)
+    {
+        if (symbol >= 'A' && symbol <= 'Z')
+            return true;
+
+        return false;
+    }
+
+    void first()
+    {
+        for (int i = 0; i < productions.size(); i++)
+        {
+            char temp;
+            for (int j = 0; j < productions[i].rhs.size(); j++)
             {
-                integers.push_back(tempInt);
-                tokens.push_back(tempInt);
-                tempInt = "";
-            }
-            if (tempDel != "")
-            {
-                delimiters.push_back(tempDel);
-                tokens.push_back(tempDel);
-                tempDel = "";
-            }
-            if (tempOp != "")
-            {
-                operators.push_back(tempOp);
-                tokens.push_back(tempOp);
-                tempOp = "";
+                if (!isNonTerminal(productions[i].rhs[j][0]))
+                {
+                    firstSet[productions[i].lhs].insert(productions[i].rhs[j][0]);
+                    
+                }
+
+                else if (isNonTerminal(productions[i].rhs[j][0]) && visited[i])
+                {
+                    // temp = productions[i].rhs[j][0];
+                    firstSet[productions[i].lhs].insert(firstSet[temp].begin(), firstSet[temp].end());
+                }
+                else
+                {
+                    temp = productions[i].rhs[j][0];
+                }
             }
         }
     }
-    print();
 
+    void print(map<char, set<char>> &m)
+    {
+        cout << "First Set" << endl;
+        for (auto i : m)
+        {
+            cout << i.first << "-> {";
+            for (auto j : i.second)
+            {
+                cout << j << " ";
+            }
+            cout << "}" << endl;
+        }
+    }
+};
+
+int main()
+{
+    production pr;
+    pr.productionRules();
+    pr.display();
+    pr.first();
+    // pr.print(pr.firstSet);
     return 0;
 }
