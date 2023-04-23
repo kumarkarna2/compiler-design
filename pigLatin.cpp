@@ -36,7 +36,7 @@ void moveCons(string s)
                 break;
             }
         }
-        // after encounterring a vowel copy the left string to a new string and stop traversing
+        // after encountering a vowel copy the left string to a new string and stop traversing
         else if (chkVowel(s[i]))
         {
             subStr = s.substr(i);
